@@ -28,6 +28,8 @@ class BrandsTable
 
                 TextColumn::make('description')
                     ->placeholder('No description')
+                    ->html()
+                    ->searchable()
                     ->formatStateUsing(fn($state) => str($state)->words(4)),
 
                 ToggleColumn::make('is_active')->label('Active')->sortable(),
