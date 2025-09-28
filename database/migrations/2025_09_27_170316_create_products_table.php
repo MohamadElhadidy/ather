@@ -24,6 +24,7 @@ return new class extends Migration {
             $table->decimal('cost_price', 10, 2)->nullable();
             $table->integer('stock')->default(0);
             $table->boolean('track_stock')->default(true);
+            $table->boolean('show_out_of_stock')->default(true);
             $table->boolean('is_featured')->default(false);
             $table->boolean('is_active')->default(true);
             $table->softDeletes();

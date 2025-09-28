@@ -14,7 +14,30 @@ class Product extends Model
         'slug',
         'name',
         'description',
-        'parent_id',
+        'category_id',
+        'brand_id',
+        'price',
+        'sale_price',
+        'cost_price',
+        'stock',
+        'track_stock',
+        'show_out_of_stock',
+        'is_featured',
         'is_active',
     ];
+
+    public function category()
+    {
+        return $this->belongsTo(Category::class);
+    }
+
+    public function brand()
+    {
+        return $this->belongsTo(Brand::class);
+    }
+
+    public function images()
+    {
+        return $this->hasMany(ProductImage::class);
+    }
 }

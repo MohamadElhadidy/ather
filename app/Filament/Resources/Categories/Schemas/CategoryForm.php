@@ -17,8 +17,8 @@ class CategoryForm
     {
         return $schema
             ->components([
-                FileUpload::make('image')->image()->columnSpanFull(),
-                TextInput::make('name')->live()->afterStateUpdated(fn(callable $set, $state) => $set('slug', Str::slug($state)))->required(),
+                FileUpload::make('image')->avatar()->directory('categories'),
+                TextInput::make('name')->live(onBlur: true)->afterStateUpdated(fn(callable $set, $state) => $set('slug', Str::slug($state)))->required(),
                 TextInput::make('slug')->unique(ignoreRecord: true)->readOnly()->required(),
                 RichEditor::make('description')
                     ->columnSpanFull(),

@@ -38,8 +38,6 @@ class CategoriesTable
             ])
             ->filters([
                 TrashedFilter::make(),
-                Filter::make('is_active')
-                    ->query(fn(Builder $query): Builder => $query->where('is_active', true)),
                 SelectFilter::make('is_active')->label('Active')
                     ->options([
                         true => 'Active',
