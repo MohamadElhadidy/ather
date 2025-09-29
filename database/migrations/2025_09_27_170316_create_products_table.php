@@ -20,7 +20,7 @@ return new class extends Migration {
             $table->foreignIdFor(Category::class)->nullable()->constrained()->nullOnDelete();
             $table->foreignIdFor(Brand::class)->nullable()->constrained()->nullOnDelete();
             $table->decimal('price', 10, 2);
-            $table->decimal('sale_price', 10, 2)->nullable();
+            $table->decimal('compare_at_price', 10, 2)->nullable();
             $table->decimal('cost_price', 10, 2)->nullable();
             $table->integer('stock')->default(0);
             $table->boolean('track_stock')->default(true);

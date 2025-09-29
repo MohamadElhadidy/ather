@@ -19,6 +19,18 @@ class ProductForm
 {
     public static function configure(Schema $schema): Schema
     {
+
+        $updatedProfitAndMargin = function (callable $set, callable $get) {
+            $price = $get('price');
+            $cost_price = $get('cost_price');
+            if (!empty($price) && !empty($cost_price)) {
+                $profit = $price - $cost_price;
+                $margin = ($profit / $price) * 100;
+                $set('profit', $profit);
+                $set('margin', $margin);
+            }
+        };
+
         return $schema
             ->components([
                 Tabs::make('Tabs')
@@ -51,18 +63,31 @@ class ProductForm
                             ]),
                         Tab::make('Pricing')
                             ->schema([
-                                Grid::make(2)->schema([
+                                Grid::make(3)->schema([
                                     TextInput::make('price')
+                                        ->live(onBlur: true)
                                         ->required()
                                         ->numeric()
-                                        ->prefix('$'),
+                                        ->afterStateUpdated(fn(callable $set, callable $get) => $updatedProfitAndMargin($set, $get))
+                                        ->prefix(config('app.currency')),
 
-                                    TextInput::make('sale_price')
+                                    TextInput::make('compare_at_price')
                                         ->numeric()
-                                        ->prefix('$'),
+                                        ->prefix(config('app.currency')),
+
+                                ]),
+                                Grid::make(3)->schema([
                                     TextInput::make('cost_price')
+                                        ->live(onBlur: true)
                                         ->numeric()
-                                        ->prefix('$'),
+                                        ->afterStateUpdated(fn(callable $set, callable $get) => $updatedProfitAndMargin($set, $get))
+                                        ->prefix(config('app.currency')),
+                                    TextInput::make('profit')
+                                        ->prefix(config('app.currency'))->disabled()
+                                        ->dehydrated(false),
+                                    TextInput::make('margin')
+                                        ->suffix('%')->disabled()
+                                        ->dehydrated(false),
                                 ]),
 
 
@@ -70,28 +95,33 @@ class ProductForm
                         Tab::make('Stock')
                             ->schema([
 
-                                TextInput::make('stock')
-                                    ->required()
-                                    ->numeric()
-                                    ->default(0),
+                                Grid::make(3)->schema([
+                                    TextInput::make('stock')
+                                        ->required()
+                                        ->numeric()
+                                        ->columnSpan(1)
+                                        ->default(0),
+                                ]),
                                 Grid::make(2)->schema([
-                                    Toggle::make('track_stock'),
-                                    Toggle::make('show_out_of_stock'),
+                                    Toggle::make('track_stock')->columnSpanFull(),
+                                    Toggle::make('show_out_of_stock')->label('Continue selling when out of stock')->columnSpanFull(),
                                 ]),
                             ]),
                         Tab::make('Images')
                             ->schema([
-                               Repeater::make('images')
-                               ->relationship()
-                               ->schema([
-                                    FileUpload::make('path')
-                                    ->image()
-                                    ->directory('products')
-                               ])
-                               ->orderable('sort_order')
-                               ->reorderableWithButtons()
-                               ->collapsible()
-
+                                Repeater::make('images')
+                                    ->grid(3)
+                                    ->relationship()
+                                    ->schema([
+                                        FileUpload::make('path')
+                                            ->image()
+                                            ->previewable()
+                                            ->directory('products')
+                                    ])
+                                    
+                                    ->orderable('sort_order')
+                                    ->reorderableWithButtons()
+                                    ->collapsible()
                             ]),
                     ])->columnSpanFull()
 

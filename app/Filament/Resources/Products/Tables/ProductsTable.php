@@ -36,8 +36,8 @@ class ProductsTable
                 TextColumn::make('stock')
                     ->numeric()
                     ->sortable(),
-                ToggleColumn::make('is_featured'),
-                ToggleColumn::make('is_active'),
+                ToggleColumn::make('is_featured')->label('Featured'),
+                ToggleColumn::make('is_active')->label('Active'),
             ])
             ->filters([
                 TrashedFilter::make(),
