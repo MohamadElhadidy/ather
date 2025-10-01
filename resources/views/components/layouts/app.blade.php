@@ -8,8 +8,6 @@
     <title>{{ $title ?? 'Page Title' }}</title>
 
     @vite(['resources/css/app.css', 'resources/js/app.js'])
-
-
 </head>
 
 <body>
@@ -24,14 +22,13 @@
         </ul>
         <ul class="flex space-x-4">
             <li><a href="/account"><x-heroicon-o-user class="w-7 h-7" /></a></li>
-            <li><a href="/cart" class="relative">
-                    <x-ionicon-bag-outline class="w-7 h-7" />
-                    <span class="absolute left-2.5 top-2 text-sm font-mono font-semibold">5</span>
-                </a>
-            </li>
+            <livewire:cart-icon/>
         </ul>
     </nav>
+   
+
     {{ $slot }}
+
 </body>
 
 </html>

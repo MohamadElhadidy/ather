@@ -8,6 +8,10 @@ use Livewire\Component;
 class ProductsList extends Component
 {
 
+     public function add()
+    {
+        dd('shit');
+    }
     public function render()
     {
         return view('livewire.products-list', [
