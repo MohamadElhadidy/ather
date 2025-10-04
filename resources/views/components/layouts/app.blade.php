@@ -22,13 +22,13 @@
         </ul>
         <ul class="flex space-x-4">
             <li><a href="/account"><x-heroicon-o-user class="w-7 h-7" /></a></li>
-            <livewire:cart-icon/>
+            <livewire:cart-icon />
         </ul>
     </nav>
-   
 
-    {{ $slot }}
-
+    <main class="mx-auto max-w-2xl px-4 py-16 sm:px-6 sm:py-24 lg:max-w-7xl lg:px-8">
+        {{ $slot }}
+    </main>
 </body>
 
 </html>

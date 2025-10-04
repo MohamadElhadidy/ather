@@ -2,6 +2,7 @@
 
 namespace App\Livewire;
 
+use App\Services\CartService;
 use Livewire\Component;
 
 class AddToCart extends Component
@@ -11,14 +12,7 @@ class AddToCart extends Component
 
     public function add()
     {
-        $cart = session()->get('cart', []);
-        if (isset($cart[$this->productId])) {
-            $cart[$this->productId]++; // increment quantity
-        } else {
-            $cart[$this->productId] = 1; // first time add
-        }
-
-        session()->put('cart', $cart);
+        (new CartService())->add($this->productId);
 
         $this->dispatch('cartUpdated');
     }

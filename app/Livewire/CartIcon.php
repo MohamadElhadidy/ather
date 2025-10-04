@@ -2,6 +2,7 @@
 
 namespace App\Livewire;
 
+use App\Services\CartService;
 use Livewire\Attributes\On;
 use Livewire\Component;
 
@@ -23,8 +24,8 @@ class CartIcon extends Component
 
     public function updateCount()
     {
-        $cart = session()->get('cart', []);
-        $this->cartCount = array_sum($cart);
+        $this->cartCount = (new CartService())->count();
+        
     }
 
 
